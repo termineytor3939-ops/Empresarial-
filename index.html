@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIVEL, edición 1: Nintendo como empresa</title>
+<meta name="description" content="Revista NIVEL, edición 1, noviembre 2026. Nintendo como empresa: su historia, su modelo de negocio, sus lanzamientos fallidos y el presente de la Switch 2. Por Daniel Pérez.">
+<style>
+@font-face{font-family:'Bricolage Grotesque';font-style:normal;font-display:swap;font-weight:200 800;
+  src:url(fonts/bricolage-grotesque-latin-standard-normal.woff2) format('woff2-variations');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Bricolage Grotesque';font-style:normal;font-display:swap;font-weight:200 800;
+  src:url(fonts/bricolage-grotesque-latin-ext-standard-normal.woff2) format('woff2-variations');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{
+  --navy:#1C1A2E; --paper:#FFFDFB; --ink:#17151F; --blue:#C8102E; --mint:#1FA99A;
+  --tape:#FFC531; --line:#E6DCDC; --muted:#5A5466; --wash:#F7EEEE; --desk:#E7DFE0;
+  --disp:'Bricolage Grotesque','Times New Roman',serif;
+  --body:'Times New Roman',Times,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--desk);font-family:var(--disp);color:var(--ink);display:flex;flex-direction:column;min-height:100vh}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 24px;color:var(--navy);font-size:15px}
+.top .mast{font-size:22px}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;padding:8px 16px 0}
+.book-wrap{width:100%;max-width:min(1240px, calc((100vh - 150px) * 1.545));margin:0 auto}
+.book{width:100%}
+@media (max-width:700px){.book-wrap{max-width:100%}}
+.bar{display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 16px 22px;color:var(--navy)}
+.bar button{font:600 15px/1 var(--disp);color:#fff;background:var(--navy);border:0;border-radius:999px;min-height:44px;padding:0 20px;cursor:pointer}
+.bar button:disabled{opacity:.35;cursor:default}
+.bar output{font-size:15px;min-width:130px;text-align:center}
+.hint{font-size:13px;color:var(--muted);text-align:center;padding:0 16px 18px;margin:0}
+
+/* cada hoja se diseña a 816 x 1056 (Carta a 96 dpi) y se escala a la página */
+.page{background:var(--paper);overflow:hidden}
+.sheet{width:816px;height:1056px;position:relative;overflow:hidden;background:var(--paper);
+  font-family:var(--body);color:var(--ink);transform-origin:0 0;transform:scale(var(--s,1))}
+.sheet p{font-size:16px;line-height:1.5;text-align:justify;margin:0;hyphens:auto;text-wrap:pretty}
+.sheet h2{font:700 18.67px/1.25 var(--body);margin:0;color:var(--navy)}
+.sheet h3{font:700 18.67px/1.25 var(--body);margin:0}
+.sheet h4{font:700 16px/1.3 var(--body);margin:0}
+.mast{font-family:var(--disp);font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+.mast i{font-style:normal;color:var(--blue)}
+.mast.big{font-size:56px;line-height:1}
+.mast.w{color:#fff}
+.mast.w i{color:var(--tape)}
+
+.run{position:absolute;left:72px;right:72px;top:40px;display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--line);padding-bottom:8px;font-size:14px;color:var(--muted)}
+.run .mast{font-size:17px}
+.folio{position:absolute;left:72px;right:72px;bottom:34px;display:flex;justify-content:space-between;align-items:baseline;
+  border-top:1px solid var(--line);padding-top:8px;font-size:13px;color:var(--muted)}
+.folio b{font:800 20px/1 var(--disp);color:var(--navy)}
+.folio.even{flex-direction:row-reverse}
+/* esquinas de pantalla: el motivo de la edición */
+.crop{position:absolute;width:18px;height:18px;border-color:var(--navy);opacity:.35}
+.crop.tl{left:24px;top:24px;border-left:2px solid;border-top:2px solid;border-top-left-radius:8px}
+.crop.tr{right:24px;top:24px;border-right:2px solid;border-top:2px solid;border-top-right-radius:8px}
+.crop.bl{left:24px;bottom:24px;border-left:2px solid;border-bottom:2px solid;border-bottom-left-radius:8px}
+.crop.br{right:24px;bottom:24px;border-right:2px solid;border-bottom:2px solid;border-bottom-right-radius:8px}
+
+.body{position:absolute;left:72px;right:72px;top:92px;bottom:80px;display:flex;flex-direction:column;gap:14px}
+.sec{display:flex;align-items:flex-end;gap:16px;border-bottom:3px solid var(--navy);padding-bottom:8px}
+.sec .num{font:800 64px/.8 var(--disp);color:var(--blue);letter-spacing:-.04em}
+.sec h2{padding-bottom:2px}
+.minor{color:var(--navy);margin-top:2px !important}
+.stack{display:flex;flex-direction:column;gap:12px}
+.stack-s{display:flex;flex-direction:column;gap:6px}
+p.lead::first-letter{font:800 58px/.8 var(--disp);float:left;margin:6px 10px 0 0;color:var(--blue)}
+
+/* introducción */
+.cols-intro{display:grid;grid-template-columns:minmax(0,1fr) 196px;gap:28px}
+.toc h3{font:700 16px/1.2 var(--disp);color:var(--navy);margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc a{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:16px;line-height:1.25}
+.toc a b{font:800 18px/1 var(--disp);color:var(--blue);min-width:22px}
+.toc a:hover span{text-decoration:underline}
+.pull{margin:auto 0 0;padding:24px 28px 24px 30px;background:var(--navy);color:#fff;border-radius:4px 28px 4px 4px}
+.pull p{font:500 21px/1.4 var(--disp);text-align:left;color:#fff;hyphens:none}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts div{padding:10px 14px;display:flex;flex-direction:column;gap:2px}
+.facts div+div{border-left:1px solid var(--line)}
+.facts b{font:800 30px/1 var(--disp);color:var(--navy)}
+.facts span{font-size:15px;color:var(--muted)}
+
+/* biografías */
+.author{display:grid;grid-template-columns:150px minmax(0,1fr);gap:22px;align-items:start;padding:16px;background:var(--wash);border-radius:4px}
+.author img,.author .ava{width:150px;height:150px;object-fit:cover;object-position:50% 30%;border-radius:50%;border:3px solid var(--blue);display:block}
+.ava{display:flex !important;align-items:center;justify-content:center;background:var(--navy);color:#fff;font:800 52px/1 var(--disp);letter-spacing:-.02em}
+.tag{font:600 13px/1 var(--disp);color:var(--blue)}
+.role{font:600 14px/1.3 var(--disp);color:var(--blue)}
+.guests{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px}
+.guest{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:start;border-top:2px solid var(--navy);padding-top:10px}
+.guest .ava{width:72px;height:72px;border-radius:50%;font-size:24px;background:var(--wash);color:var(--navy);border:2px solid var(--navy)}
+.guest h3{font-size:17px}
+.guest p{font-size:16px;line-height:1.45;text-align:left;margin-top:4px}
+
+/* misión */
+.mv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.mv>div{padding:18px 20px;color:#fff;border-radius:4px}
+.mv-m{background:var(--navy)}
+.mv-v{background:var(--blue)}
+.mv h3{font:800 22px/1 var(--disp);margin-bottom:8px;color:#fff}
+.mv p{color:#fff}
+.values{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.values div{border-top:3px solid var(--mint);padding-top:6px;display:flex;flex-direction:column;gap:3px}
+.values span,.probs span,.guar span{font-size:14px;line-height:1.4;color:var(--muted)}
+
+/* impacto */
+.probs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.probs div{background:var(--wash);padding:12px 14px;border-radius:4px;display:flex;flex-direction:column;gap:4px}
+.probs h4{font:800 17px/1.1 var(--disp);color:var(--blue)}
+.catalog{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tpl{border:1.5px solid var(--navy);border-radius:4px;padding:9px 12px;display:flex;flex-direction:column;gap:3px}
+.tpl-top{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.tpl-top b{font-size:16px}
+.tpl-top span{font:600 11.5px/1 var(--disp);background:var(--tape);color:var(--ink);padding:4px 6px;border-radius:2px;white-space:nowrap}
+.tpl-code{font:600 12px/1 var(--disp);color:var(--muted)}
+.tpl>span{font-size:14px;line-height:1.35}
+
+/* lanzamientos */
+.formula{display:flex;align-items:stretch;gap:8px}
+.formula div{flex:1;border:1.5px solid var(--navy);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:3px}
+.formula b{font:800 16px/1.15 var(--disp);color:var(--navy)}
+.formula span{font-size:13.5px;line-height:1.3;color:var(--muted)}
+.formula i{font:800 26px/1 var(--disp);font-style:normal;color:var(--blue);align-self:center}
+.formula .res{background:var(--navy);border-color:var(--navy)}
+.formula .res b{color:var(--tape)}
+.formula .res span{color:#D6D1E3}
+table{border-collapse:collapse;width:100%;font-family:var(--body)}
+caption{caption-side:top;text-align:left;font-size:14px;color:var(--muted);padding-bottom:4px}
+th,td{text-align:left;padding:6px 10px;font-size:15px;line-height:1.35;vertical-align:top;border-top:1px solid var(--line)}
+thead th{background:var(--wash);font-size:14px;border-top:0}
+tbody th{font-weight:700}
+tbody th small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.nw{white-space:nowrap}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;counter-reset:st}
+.steps li{counter-increment:st;display:flex;flex-direction:column;gap:3px;border-top:4px solid var(--blue);padding-top:8px;font-size:13.5px;line-height:1.35;color:var(--muted)}
+.steps li::before{content:counter(st);font:800 22px/1 var(--disp);color:var(--navy)}
+.steps .when{font:600 12px/1.2 var(--disp);color:var(--blue)}
+.steps b{font-size:15px;color:var(--ink);line-height:1.25}
+
+/* opinión */
+.pc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.pc>div{border-radius:4px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.pc .good{background:#E6F5F3;border-top:5px solid var(--mint)}
+.pc .bad{background:var(--wash);border-top:5px solid var(--blue)}
+.pc h3{font:800 20px/1.1 var(--disp);color:var(--navy)}
+.pc ul{margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:7px}
+.pc li{font-size:15px;line-height:1.4}
+
+/* conclusión */
+.cta{margin-top:auto;background:var(--navy);color:#fff;border-radius:4px 40px 4px 4px;padding:32px 36px;display:flex;flex-direction:column;gap:12px}
+.cta-t{font:800 40px/1.05 var(--disp) !important;text-align:left !important;color:#fff}
+.cta-s{color:#D6D1E3 !important;text-align:left !important}
+.cta-links{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:16px}
+.cta-links a{color:var(--tape)}
+
+.big-quote{margin:auto 0;border-left:6px solid var(--blue);padding:4px 0 4px 24px}
+.sheet .big-quote p{font:800 44px/1.05 var(--disp);color:var(--navy);text-align:left;hyphens:none}
+.big-quote.s p{font-size:34px !important}
+.big-quote+.cta{margin-top:0}
+/* historia */
+.minor.first{margin-top:0 !important;border-bottom:3px solid var(--navy);padding-bottom:10px;font-size:18.67px}
+.timeline{list-style:none;margin:0;padding:0 0 0 26px;position:relative;display:flex;flex-direction:column;gap:10px}
+.timeline::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.timeline li{position:relative;display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.4;color:var(--muted)}
+.timeline li::before{content:'';position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--blue)}
+.timeline li:last-child::before{background:var(--mint)}
+.timeline b{font-size:16px;color:var(--ink)}
+.timeline b em{font:800 16px/1 var(--disp);font-style:normal;color:var(--blue);margin-right:6px}
+.lesson{margin-top:auto;background:var(--wash);border-left:6px solid var(--blue);padding:18px 22px;display:flex;flex-direction:column;gap:8px}
+.lesson h3{color:var(--navy)}
+/* bibliografía */
+.refs{display:flex;flex-direction:column;gap:5px}
+.sheet p.ref{font-size:13.5px;line-height:1.35;text-align:left;padding-left:32px;text-indent:-32px;overflow-wrap:anywhere}
+.colophon{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;border-top:3px solid var(--navy);padding-top:14px;font-size:14px;line-height:1.5;color:var(--muted);text-align:right}
+
+/* anexos */
+.label{border:2px solid var(--ink);border-radius:6px;padding:14px 18px;display:flex;flex-direction:column}
+.label-top{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted)}
+.label-name{font:800 26px/1 var(--disp);color:var(--ink)}
+.label-sub{font-size:15px;padding:6px 0}
+.lbl-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;border-top:1px solid var(--line);padding:5px 0;font-size:15px;line-height:1.4}
+.label-foot{display:flex;justify-content:space-between;border-top:2px solid var(--ink);padding-top:6px;font:700 13px/1.2 var(--disp)}
+.guar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.guar div{background:var(--wash);border-radius:4px;padding:10px 14px;display:flex;flex-direction:column;gap:3px}
+.guar h4{color:var(--blue)}
+
+/* motivos de juego, sutiles */
+.deco{position:absolute;height:auto;color:var(--navy);opacity:.075;pointer-events:none;z-index:0}
+.body,.run,.folio{z-index:1}
+.code-deco{position:absolute;left:56px;top:176px;margin:0;font:500 15px/1.7 ui-monospace,'Cascadia Code',Consolas,monospace;color:#F3A3AE;opacity:.6;white-space:pre}
+/* portada y contraportada */
+.cover{background:var(--navy);color:#fff;
+  background-image:radial-gradient(circle,rgba(255,255,255,.12) 1.2px,transparent 1.4px);background-size:24px 24px}
+.cv-top{position:absolute;left:56px;right:56px;top:44px;display:flex;justify-content:space-between;font:500 15px/1 var(--disp);color:#D6D1E3}
+.cv-mast{position:absolute;left:44px;top:74px;margin:0;font:800 236px/.82 var(--disp);letter-spacing:-.06em;color:#fff}
+.cv-mast i{font-style:normal;color:var(--blue)}
+.sticker{position:absolute;background:var(--tape);color:var(--ink);font:800 18px/1.15 var(--disp);padding:12px 16px;border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.cv-sticker{right:56px;top:286px;transform:rotate(6deg)}
+.mock{position:absolute;left:56px;top:340px;width:500px;margin:0;background:#fff;color:var(--ink);border-radius:10px;overflow:hidden;
+  transform:rotate(-2.5deg);box-shadow:0 26px 60px rgba(0,0,0,.45);font-family:var(--disp)}
+.mock-url{background:var(--wash);padding:8px 14px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+.mock-body{padding:14px 18px 16px;display:flex;flex-direction:column;gap:7px}
+.mock-head{display:flex;justify-content:space-between;align-items:baseline;font-size:17px;margin-bottom:2px}
+.mock-head small{font-size:12px;color:var(--muted)}
+.bar-row{display:grid;grid-template-columns:96px minmax(0,1fr) 58px;gap:10px;align-items:center;font-size:13px}
+.bar-row span:first-child{color:var(--muted)}
+.bar-row i{display:block;height:12px;border-radius:0 6px 6px 0;background:var(--navy)}
+.bar-row.hi i{background:var(--mint)}
+.bar-row.lo i{background:var(--blue)}
+.bar-row b{text-align:right;font-size:13.5px}
+.cv-bottom{position:absolute;left:56px;right:56px;bottom:96px;display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:32px;align-items:end}
+.cv-kicker{font:600 15px/1 var(--disp);color:var(--tape)}
+.sheet p.cv-title,.sheet p.back-t,.sheet p.back-s,.sheet p.cta-t{hyphens:none}
+.sheet p.cv-title{font:800 50px/1 var(--disp);color:#fff;text-align:left;margin-top:10px;letter-spacing:-.01em}
+.cv-lines{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.cv-lines li{border-top:2px solid var(--blue);padding-top:6px;font:500 16px/1.3 var(--disp);color:#E4E0EE}
+.cv-credit{position:absolute;left:56px;right:56px;bottom:40px;display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.2);padding-top:10px;font:500 14px/1 var(--disp);color:#B5AFC6}
+.back .mast.big{position:absolute;left:56px;top:56px;font-size:72px}
+.sheet p.back-t{position:absolute;left:56px;right:56px;top:360px;font:800 58px/1 var(--disp);color:#fff;text-align:left;letter-spacing:-.02em}
+.sheet p.back-s{position:absolute;left:56px;width:540px;top:630px;font:500 20px/1.45 var(--disp);color:#D6D1E3;text-align:left}
+.back-links{position:absolute;left:56px;top:770px;display:flex;flex-direction:column;gap:12px;font:600 20px/1 var(--disp)}
+.back-links a{color:var(--tape)}
+.back-sticker{right:64px;bottom:150px;transform:rotate(-5deg);font-size:22px}
+
+@media (max-width:700px){.top{padding:10px 14px}.bar{gap:10px}.bar button{padding:0 14px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="top"><span class="mast">NIVEL<i>.</i></span><span>Edición 1, noviembre 2026</span></div>
+<main class="stage"><div class="book-wrap"><div class="book" id="book">
+
+<div class="page" data-density="hard" aria-label="Portada"><div class="sheet cover">
+<div class="cv-top"><span>Revista de negocios y videojuegos</span><span>Publicación semestral</span></div>
+<h1 class="cv-mast">NIVEL<i>.</i></h1>
+<div class="sticker cv-sticker">Edición N.º 1<br>Noviembre 2026</div>
+<figure class="mock" aria-label="Gráfico de consolas de Nintendo vendidas, en millones de unidades">
+<div class="mock-url"><span>Consolas vendidas en el mundo</span><span>millones de unidades</span></div>
+<div class="mock-body">
+<div class="mock-head"><strong>Aciertos y tropiezos</strong><small>Switch 2: al 30 sep 2026</small></div>
+<div class="bar-row hi"><span>Switch</span><i style="width:100%"></i><b>157.20</b></div>
+<div class="bar-row"><span>Wii</span><i style="width:64.6%"></i><b>101.6</b></div>
+<div class="bar-row"><span>Nintendo 64</span><i style="width:20.9%"></i><b>32.93</b></div>
+<div class="bar-row hi"><span>Switch 2</span><i style="width:16.8%"></i><b>26.35</b></div>
+<div class="bar-row"><span>GameCube</span><i style="width:13.8%"></i><b>21.7</b></div>
+<div class="bar-row lo"><span>Wii U</span><i style="width:8.6%"></i><b>13.56</b></div>
+<div class="bar-row lo"><span>Virtual Boy</span><i style="width:1.2%;min-width:4px"></i><b>0.77</b></div>
+</div>
+</figure>
+<div class="cv-bottom">
+<div class="cv-head"><span class="cv-kicker">Especial: Nintendo como empresa</span>
+<p class="cv-title">¿Aprendió Nintendo de sus errores?</p></div>
+<ul class="cv-lines">
+<li>Virtual Boy, Wii U y 3DS: lo que salió mal al lanzar</li>
+<li>Switch 2: un récord y un precio que sube</li>
+<li>De naipes en Kioto a la pantalla de cine</li>
+</ul>
+</div>
+<div class="cv-credit"><span>Por Daniel Pérez</span><span>Formación Empresarial, UTP</span></div>
+</div></div>
+
+<div class="page" aria-label="Página 2: Introducción"><div class="sheet"><svg class="deco" style="left:290px;top:560px;width:240px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 10v4M5 12h4"/><circle cx="16" cy="11" r=".9"/><circle cx="18" cy="13" r=".9"/></svg><svg class="deco" style="left:-30px;top:120px;width:120px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><header class="run even"><span class="mast">NIVEL<i>.</i></span><span>Introducción</span></header>
+<footer class="folio even"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>2</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">01</span><h2>Introducción</h2></div>
+<div class="cols-intro">
+<div class="stack"><p class="lead">En 1889, en un pequeño taller de Kioto, se pintaban a mano naipes de hanafuda. Más de un siglo después, esa misma empresa vende consolas en todo el mundo y llena salas de cine con sus personajes. Se llama Nintendo, y su camino no ha sido una línea recta.</p><p>En esta primera edición de <em>NIVEL</em> miro a Nintendo como lo que también es: un negocio. Es una empresa que ha acertado como pocas, con la Wii o con la Switch, pero que también ha sacado productos que casi nadie entendió, que llegaron con pocos juegos o a un precio que el público no estaba dispuesto a pagar. Creo que varias de esas caídas fueron errores de lanzamiento más que de talento.</p><p>Vas a encontrar su historia, su filosofía y su modelo de negocio, el impacto que ha tenido en la industria, en qué negocios está hoy, sus lanzamientos más complicados y qué está pasando con la Nintendo Switch 2. Al final te doy mi opinión: con todo y sus tropiezos, la Switch 2 va por un camino decente.</p></div>
+<nav class="toc" aria-label="Contenido de la edición"><h3>En esta edición</h3><ol><li><a href="#p3" data-go="3"><b>3</b><span>Biografías e invitados</span></a></li><li><a href="#p4" data-go="4"><b>4</b><span>De naipes a consolas</span></a></li><li><a href="#p6" data-go="6"><b>6</b><span>Filosofía, estrategia y función</span></a></li><li><a href="#p7" data-go="7"><b>7</b><span>Impacto y negocios</span></a></li><li><a href="#p8" data-go="8"><b>8</b><span>Los lanzamientos</span></a></li><li><a href="#p9" data-go="9"><b>9</b><span>La Switch 2 hoy</span></a></li><li><a href="#p11" data-go="11"><b>11</b><span>Conclusión</span></a></li><li><a href="#p12" data-go="12"><b>12</b><span>Bibliografía</span></a></li><li><a href="#p13" data-go="13"><b>13</b><span>Anexos</span></a></li></ol></nav>
+</div>
+<blockquote class="pull"><p>A Nintendo casi nunca le faltan ideas. Cuando falla, suele ser por la forma en que lanza lo que inventa.</p></blockquote>
+<div class="facts">
+<div><b>1889</b><span>año de fundación, en Kioto</span></div>
+<div><b>157.20 M</b><span>consolas Switch vendidas</span></div>
+<div><b>26.35 M</b><span>Switch 2 al 30 de septiembre de 2026</span></div>
+</div></div></div></div>
+
+<div class="page" aria-label="Página 3: Biografías"><div class="sheet"><svg class="deco" style="right:-40px;top:20px;width:200px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.6 14.1c3 .3 5.4 2.7 5.4 5.9"/></svg><svg class="deco" style="right:-30px;bottom:-10px;width:130px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="1.5"/><circle cx="12" cy="10" r="3"/><path d="M8 17h8"/></svg><header class="run odd"><span class="mast">NIVEL<i>.</i></span><span>Biografías</span></header>
+<footer class="folio odd"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>3</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">02</span><h2>Biografías e invitados</h2></div>
+<article class="author">
+<!-- Para usar la foto de Daniel: guardarla como img/daniel.jpg y cambiar este div por <img src="img/daniel.jpg" alt="Foto de Daniel Pérez"> -->
+<div class="ava" role="img" aria-label="Iniciales de Daniel Pérez">DP</div>
+<div class="stack-s"><div class="tag">Autor de la revista</div><h3>Daniel Pérez</h3>
+<div class="role">Análisis de empresa</div>
+<p>Daniel Pérez escribe esta edición sobre una empresa que conoce primero como jugador y que quiso estudiar como futuro emprendedor. Le interesa entender por qué una compañía con personajes tan queridos ha fallado en varios de sus lanzamientos, qué decisiones de negocio hay detrás de cada consola y si, con la Nintendo Switch 2, Nintendo por fin aprendió la lección.</p></div>
+</article>
+<h3 class="minor">Invitados: los presidentes que marcaron a Nintendo</h3>
+<div class="guests"><article class="guest"><div class="ava" aria-hidden="true">FY</div><div><h3>Fusajiro Yamauchi</h3><div class="role">Fundador, 1889</div><p>Abrió en Kioto el negocio de naipes de hanafuda que dio origen a la empresa. Durante décadas, Nintendo fue una fábrica de cartas.</p></div></article><article class="guest"><div class="ava" aria-hidden="true">HY</div><div><h3>Hiroshi Yamauchi</h3><div class="role">Presidente, 1949 a 2002</div><p>Tomó el mando de la empresa familiar y la llevó de los naipes a los juguetes y, después, a las consolas de videojuegos.</p></div></article><article class="guest"><div class="ava" aria-hidden="true">SI</div><div><h3>Satoru Iwata</h3><div class="role">Presidente, 2002 a 2015</div><p>Apostó por atraer a gente que nunca había jugado. En 2011, tras el mal arranque de la 3DS, se recortó el sueldo a la mitad.</p></div></article><article class="guest"><div class="ava" aria-hidden="true">SF</div><div><h3>Shuntaro Furukawa</h3><div class="role">Presidente desde junio de 2018</div><p>Sexto presidente de Nintendo. Participó en el lanzamiento de la Switch y hoy le toca la Switch 2 y la subida de su precio.</p></div></article></div>
+<div class="facts" style="margin-top:auto"><div><b>1889</b><span>año en que se fundó</span></div><div><b>6</b><span>presidentes en su historia</span></div><div><b>Kioto</b><span>su sede desde el primer día</span></div></div></div></div></div>
+
+<div class="page" aria-label="Página 4: De naipes a consolas"><div class="sheet"><svg class="deco" style="left:-50px;bottom:40px;width:220px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="1.5"/><circle cx="12" cy="10" r="3"/><path d="M8 17h8"/></svg><svg class="deco" style="left:-34px;top:110px;width:130px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h12v14l-2 4H8l-2-4z"/><line x1="9" y1="6" x2="15" y2="6"/><rect x="9" y="9" width="6" height="5"/></svg><header class="run even"><span class="mast">NIVEL<i>.</i></span><span>Historia</span></header>
+<footer class="folio even"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>4</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">03</span><h2>De naipes en Kioto a las consolas</h2></div>
+<p class="lead">Nintendo no nació haciendo videojuegos. Nació haciendo naipes. El 23 de septiembre de 1889, Fusajiro Yamauchi abrió en Kioto un pequeño negocio que fabricaba a mano cartas de hanafuda, un juego japonés decorado con flores y con las estaciones del año.</p>
+<p>En 1902 empezó a fabricar las primeras cartas de estilo occidental de Japón, y en 1953 se convirtió en la primera empresa del país en producir en masa naipes de plástico. Durante buena parte del siglo XX, ese fue el negocio: cartas para jugar.</p>
+<h3 class="minor">El salto a los videojuegos</h3>
+<p>Con los años, la empresa probó suerte con juguetes y con otros negocios hasta encontrar su lugar en el entretenimiento electrónico. El gran salto llegó en 1983 con la Family Computer, conocida fuera de Japón como Nintendo Entertainment System. Desde entonces, Nintendo diseña juntos la consola y los juegos, y esa forma de trabajar explica buena parte de su éxito.</p>
+<p>Esa misma forma de trabajar también le ha salido cara. Cuando la consola no convence, los juegos propios no alcanzan para salvarla. Y cuando la empresa no escucha a los estudios que hacen juegos para su plataforma, esos estudios se van con la competencia.</p>
+<blockquote class="big-quote"><p>Empezó vendiendo naipes. Hoy vende consolas, juegos y películas.</p></blockquote></div></div></div>
+
+<div class="page" aria-label="Página 5: De naipes a consolas, continuación"><div class="sheet"><svg class="deco" style="right:-34px;top:16px;width:130px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="6" width="20" height="12" rx="3"/><rect x="7" y="8" width="10" height="8" rx=".5"/><circle cx="4.5" cy="12" r=".8"/><circle cx="19.5" cy="12" r=".8"/></svg><svg class="deco" style="right:-30px;top:420px;width:110px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><header class="run odd"><span class="mast">NIVEL<i>.</i></span><span>Historia</span></header>
+<footer class="folio odd"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>5</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><h3 class="minor first">Una historia de subidas y caídas</h3>
+<p>Vista de lejos, la historia de Nintendo parece una montaña rusa. A un éxito enorme le sigue un tropiezo, y después del tropiezo llega una consola que vuelve a sorprender. La Wii vendió casi 102 millones de unidades; su sucesora, la Wii U, apenas 13.56 millones. De ese fracaso salió la Switch, que hoy supera los 157 millones.</p>
+<ol class="timeline"><li><b><em>1889</em>Naipes de hanafuda</b><span>Fusajiro Yamauchi abre su negocio en Kioto.</span></li><li><b><em>1902</em>Cartas occidentales</b><span>Las primeras fabricadas en Japón.</span></li><li><b><em>1983</em>Family Computer</b><span>Consola y juegos se diseñan juntos.</span></li><li><b><em>1995</em>Virtual Boy</b><span>Su consola menos vendida: 770 mil unidades.</span></li><li><b><em>2006</em>Wii</b><span>Casi 102 millones de consolas.</span></li><li><b><em>2012</em>Wii U</b><span>13.56 millones y un nombre que confundía.</span></li><li><b><em>2017</em>Nintendo Switch</b><span>Híbrida, y la consola más vendida de la empresa.</span></li><li><b><em>2025</em>Nintendo Switch 2</b><span>Llega a las tiendas el 5 de junio.</span></li></ol>
+<div class="lesson"><h3>Lo que enseña</h3>
+<p>Una empresa grande también se equivoca. Lo que distingue a Nintendo es lo rápido que aprende de sus fracasos. La Switch tomó la idea de jugar en casa y fuera de casa que la Wii U no supo explicar, y la convirtió en algo que todo el mundo entendió a la primera.</p></div></div></div></div>
+
+<div class="page" aria-label="Página 6: Filosofía, estrategia y función"><div class="sheet"><svg class="deco" style="left:-60px;bottom:30px;width:240px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1.8 2 5.2 2 7 0"/><circle cx="9" cy="10" r=".8"/><circle cx="15" cy="10" r=".8"/></svg><svg class="deco" style="right:200px;top:4px;width:72px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 10v4M5 12h4"/><circle cx="16" cy="11" r=".9"/><circle cx="18" cy="13" r=".9"/></svg><header class="run even"><span class="mast">NIVEL<i>.</i></span><span>La empresa</span></header>
+<footer class="folio even"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>6</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">04</span><h2>Filosofía, estrategia y función</h2></div>
+<div class="mv">
+<div class="mv-m"><h3>Filosofía</h3><p>“Poner una sonrisa en la cara de todos los que tocan Nintendo”. Así resume la empresa su responsabilidad, que reparte en cuatro áreas: los consumidores, la cadena de suministro, los empleados y el ambiente.</p></div>
+<div class="mv-v"><h3>Estrategia</h3><p>Ampliar el número de personas que tienen acceso a sus personajes y mundos, su propiedad intelectual (IP), para mantener fuerte su negocio central: una plataforma de videojuegos que integra consola y juegos.</p></div>
+</div>
+<div class="values"><div><h4>Consola y juegos juntos</h4><span>Diseña el aparato y el software al mismo tiempo, para sorprender con su forma de jugar.</span></div><div><h4>Personajes propios</h4><span>Su mayor activo son sus franquicias, que no dependen de ninguna otra empresa.</span></div><div><h4>Cuenta Nintendo</h4><span>Conecta al jugador de una generación de consolas a la siguiente.</span></div><div><h4>Más allá de la consola</h4><span>Cine, juegos móviles y productos que llevan sus personajes a más gente.</span></div></div>
+<h3 class="minor">Función dentro del negocio</h3>
+<p>Nintendo cumple tres papeles a la vez. Fabrica la consola, desarrolla buena parte de los juegos que se venden en ella y es dueña de los personajes. Gana dinero cuando vende el aparato, cuando vende cada juego, con su servicio en línea y con el uso de su IP fuera de los videojuegos. Las ventas digitales ya pesan mucho: en el año fiscal que cerró en marzo de 2026 fueron el 54.6 % de lo que vendió en software.</p>
+<h3 class="minor">Importancia en la formación del emprendedor</h3>
+<p>Estudiar a Nintendo me sirvió para ver que tener un buen producto no basta. Hay que saber explicarlo, ponerle un precio que el cliente acepte y llegar al mercado en el momento justo. También muestra el valor de lo propio: una empresa que es dueña de sus ideas puede vivir de ellas en la consola, en el cine o en un parque. Esa lección sirve igual para una empresa enorme de Kioto que para un emprendimiento pequeño en Panamá.</p></div></div></div>
+
+<div class="page" aria-label="Página 7: Impacto y negocios"><div class="sheet"><svg class="deco" style="right:-40px;bottom:-20px;width:220px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3v18h18"/><rect x="6.5" y="12" width="2.6" height="6"/><rect x="11" y="8" width="2.6" height="10"/><rect x="15.5" y="5" width="2.6" height="13"/><path d="M5.5 9l4.5-3 4 2 5-5"/></svg><svg class="deco" style="right:-34px;top:10px;width:150px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z"/></svg><header class="run odd"><span class="mast">NIVEL<i>.</i></span><span>Impacto y negocios</span></header>
+<footer class="folio odd"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>7</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">05</span><h2>Impacto en la industria</h2></div>
+<p>Pocas empresas han cambiado tanto la forma en que se juega. Estas son cuatro huellas que Nintendo ha dejado en la industria del entretenimiento:</p>
+<div class="probs"><div><h4>Un público nuevo</h4><span>Desde 2004 busca jugadores de cualquier edad o género, tengan o no experiencia con videojuegos.</span></div><div><h4>Consolas híbridas</h4><span>La Switch convirtió en algo normal jugar la misma consola en la televisión y en la mano.</span></div><div><h4>Del juego al cine</h4><span>La película de Super Mario Bros. de 2023 fue la primera basada en un videojuego en pasar los $1,000 millones.</span></div><div><h4>Un negocio global</h4><span>De abril a septiembre de 2026, el 78.9 % de sus ventas vino de fuera de Japón.</span></div></div>
+<p>Su influencia también se ve en la competencia. Cada vez que Nintendo acierta con una forma distinta de jugar, el resto del mercado la copia o tiene que responder. Y cada vez que falla, la industria aprende qué no hacer.</p>
+<div class="sec"><span class="num">06</span><h2>Negocios y mercados</h2></div>
+<p>Nintendo tiene su sede en Kioto, pero vende en todo el mundo. Su negocio se puede dividir en seis frentes, y todos giran alrededor de sus consolas y sus personajes:</p>
+<div class="catalog"><div class="tpl"><div class="tpl-top"><b>Consolas</b><span>Núcleo</span></div><div class="tpl-code">Switch 2 y Switch</div><span>El aparato donde vive todo lo demás.</span></div><div class="tpl"><div class="tpl-top"><b>Juegos propios</b><span>73.21 M</span></div><div class="tpl-code">Juegos de Switch 2 vendidos</div><span>Sus franquicias venden la consola.</span></div><div class="tpl"><div class="tpl-top"><b>Ventas digitales</b><span>54.6 %</span></div><div class="tpl-code">Del software, año fiscal 2026</div><span>Juegos y contenido descargable.</span></div><div class="tpl"><div class="tpl-top"><b>Móvil e IP</b><span>+87.9 %</span></div><div class="tpl-code">Abril a septiembre de 2026</div><span>62,700 millones de yenes en seis meses.</span></div><div class="tpl"><div class="tpl-top"><b>Cine</b><span>2 películas</span></div><div class="tpl-code">Con Illumination</div><span>Mario en 2023 y en 2026.</span></div><div class="tpl"><div class="tpl-top"><b>Mercados</b><span>78.9 %</span></div><div class="tpl-code">Ventas fuera de Japón</div><span>América, Europa y Asia.</span></div></div></div></div></div>
+
+<div class="page" aria-label="Página 8: Los lanzamientos"><div class="sheet"><svg class="deco" style="left:-40px;bottom:20px;width:220px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h12v14l-2 4H8l-2-4z"/><line x1="9" y1="6" x2="15" y2="6"/><rect x="9" y="9" width="6" height="5"/></svg><svg class="deco" style="left:-34px;top:110px;width:120px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l9 16H3z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="16" r=".6"/></svg><header class="run even"><span class="mast">NIVEL<i>.</i></span><span>Los lanzamientos</span></header>
+<footer class="folio even"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>8</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">07</span><h2>Los lanzamientos: aciertos y errores</h2></div>
+<p>Aquí está la parte que más me interesa. Nintendo hace juegos muy buenos, y aun así varias de sus consolas arrancaron mal. Cuando uno revisa los casos, el problema casi nunca fue la calidad de los juegos. Fue cómo, cuándo y a qué precio salió el producto.</p>
+<table><caption>Cuatro lanzamientos que no salieron como Nintendo esperaba.</caption>
+<thead><tr><th scope="col">Lanzamiento</th><th scope="col">Qué falló</th><th scope="col">Resultado</th></tr></thead><tbody>
+<tr><th scope="row">Virtual Boy<small>1995, $179.99</small></th><td>Salió sin terminar, con pocos juegos, para llenar el hueco mientras llegaba la Nintendo 64.</td><td>770 mil unidades; dejó de venderse en menos de un año, con solo 22 juegos.</td></tr>
+<tr><th scope="row">Nintendo 64<small>1996</small></th><td>Siguió con cartuchos cuando la competencia usaba CD, que guardaban mucho más.</td><td>Square llevó <em>Final Fantasy VII</em> a PlayStation. Vendió 32.93 millones.</td></tr>
+<tr><th scope="row">Nintendo 3DS<small>2011, $249.99</small></th><td>Precio de salida alto y pocas ventas en sus primeros meses.</td><td>En menos de cinco meses bajó a $169.99. Iwata se recortó el sueldo un 50 %.</td></tr>
+<tr><th scope="row">Wii U<small>2012</small></th><td>Un nombre que parecía un accesorio de la Wii, pocos juegos al inicio y estudios externos que se fueron.</td><td>13.56 millones. Internamente se llegó a proyectar cerca de 100 millones.</td></tr>
+</tbody></table>
+<h3 class="minor">Lo que se repite</h3>
+<div class="formula" aria-label="Producto confuso más pocos juegos al inicio más precio alto da un arranque lento">
+<div><b>Producto confuso</b><span>El público no sabe qué es</span></div><i>+</i>
+<div><b>Pocos juegos</b><span>Nada que jugar al inicio</span></div><i>+</i>
+<div><b>Precio alto</b><span>Más de lo que el cliente acepta</span></div><i>=</i>
+<div class="res"><b>Arranque lento</b><span>Y estudios que se van</span></div>
+</div>
+<h3 class="minor">Mi lectura</h3>
+<p>Para mí, estos casos tienen algo en común: Nintendo se enamoró de la idea y descuidó al cliente. El Virtual Boy salió apurado, la Nintendo 64 le dio la espalda a los estudios que necesitaba y la Wii U nunca dejó claro qué era. La 3DS es el caso más interesante, porque Nintendo corrigió rápido: bajó el precio, regaló 20 juegos a quienes la compraron caro y su presidente asumió la culpa con su propio sueldo.</p>
+<blockquote class="big-quote s"><p>El problema casi nunca fueron los juegos.</p></blockquote></div></div></div>
+
+<div class="page" aria-label="Página 9: La Switch 2 hoy"><div class="sheet"><svg class="deco" style="right:-30px;top:16px;width:150px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="6" width="20" height="12" rx="3"/><rect x="7" y="8" width="10" height="8" rx=".5"/><circle cx="4.5" cy="12" r=".8"/><circle cx="19.5" cy="12" r=".8"/></svg><svg class="deco" style="right:-20px;bottom:-14px;width:150px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3v18h18"/><path d="M5.5 9l4.5-3 4 2 5-5"/></svg><header class="run odd"><span class="mast">NIVEL<i>.</i></span><span>La Switch 2</span></header>
+<footer class="folio odd"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>9</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">08</span><h2>La Nintendo Switch 2 hoy</h2></div>
+<p class="lead">La Nintendo Switch 2 llegó a las tiendas el 5 de junio de 2025 a $449.99, o a $499.99 en paquete con <em>Mario Kart World</em>. Ese juego, vendido por separado, costaba $79.99. El precio sorprendió: los analistas esperaban que la consola no pasara de $399, y salió un 50 % más cara que la primera Switch, que había costado $300.</p>
+<div class="facts">
+<div><b>19.86 M</b><span>vendidas en su primer año fiscal</span></div>
+<div><b>26.35 M</b><span>vendidas al 30 de septiembre de 2026</span></div>
+<div><b>$499.99</b><span>su precio en EE. UU. desde el 1 de septiembre de 2026</span></div>
+</div>
+<h3 class="minor">El primer año: un récord</h3>
+<p>Aun con ese precio, la consola vendió como ninguna otra de Nintendo en su arranque. En el año fiscal que cerró el 31 de marzo de 2026, la empresa casi duplicó sus ventas: subieron un 98.6 %, hasta 2.3 billones de yenes. <em>Mario Kart World</em> llegó a 14.7 millones de copias, contando las que venían con la consola.</p>
+<h3 class="minor">El segundo año: la cuesta</h3>
+<p>Después vino lo difícil. La memoria que usa la consola se encareció con la demanda de los centros de datos de inteligencia artificial, y Nintendo calculó unos 100,000 millones de yenes en costos extra por componentes y aranceles. Subió el precio en Japón en mayo y en Estados Unidos, Canadá y Europa en septiembre. Entre julio y septiembre de 2026 vendió 2.67 millones de consolas, un 41 % menos que un año antes. Aun así, mantuvo su meta de 16.5 millones para el año fiscal que termina en marzo de 2027.</p>
+<ol class="steps"><li><span class="when">2 de abril de 2025</span><b>Anuncio</b><span>Precio de $449.99 y fecha de salida.</span></li><li><span class="when">5 de junio de 2025</span><b>Lanzamiento</b><span>Con <em>Mario Kart World</em> como juego principal.</span></li><li><span class="when">31 de marzo de 2026</span><b>Primer cierre</b><span>19.86 millones vendidas.</span></li><li><span class="when">25 de mayo de 2026</span><b>Sube en Japón</b><span>De ¥49,980 a ¥59,980.</span></li><li><span class="when">1 de septiembre de 2026</span><b>Sube en EE. UU.</b><span>De $449.99 a $499.99.</span></li></ol>
+<div class="lesson"><h3>El dato clave</h3><p>En menos de un año, la Switch 2 ya había vendido más consolas que la Wii U en toda su vida, que no llegó a 14 millones entre 2012 y 2017.</p></div></div></div></div>
+
+<div class="page" aria-label="Página 10: Mi opinión sobre la Switch 2"><div class="sheet"><svg class="deco" style="left:-40px;bottom:30px;width:200px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5h16v10H9l-5 4z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="12" x2="13" y2="12"/></svg><svg class="deco" style="left:-30px;top:120px;width:110px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 10v4M5 12h4"/><circle cx="16" cy="11" r=".9"/><circle cx="18" cy="13" r=".9"/></svg><header class="run even"><span class="mast">NIVEL<i>.</i></span><span>Opinión</span></header>
+<footer class="folio even"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>10</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><h3 class="minor first">¿Va por buen camino?</h3>
+<p>Si comparo la Switch 2 con los lanzamientos de la página 8, veo una empresa que aprendió varias cosas. Esta vez la consola tenía un nombre que se entiende, un juego fuerte desde el primer día y un público que ya conocía la idea. No es un lanzamiento perfecto, pero tampoco se parece a la Wii U.</p>
+<div class="pc">
+<div class="good"><h3>Lo que hizo bien</h3><ul><li>Un nombre claro: es la continuación de la Switch, sin confusión.</li><li>Salió con un juego grande, <em>Mario Kart World</em>, que vendió 14.7 millones.</li><li>Vendió 19.86 millones en su primer año fiscal, el mejor arranque de su historia.</li><li>Sus personajes siguen creciendo fuera de la consola, como en el cine.</li></ul></div>
+<div class="bad"><h3>Lo que me preocupa</h3><ul><li>El precio: salió caro y ya subió $50 en Estados Unidos.</li><li>Un juego principal de $79.99, en una época en que $70 ya se veía alto.</li><li>Entre julio y septiembre de 2026 vendió un 41 % menos que un año antes.</li><li>Le falta mostrar que puede vender bien cuando pase el entusiasmo del lanzamiento.</li></ul></div>
+</div>
+<p>Hay que ser justos con el precio. La subida vino por el costo de la memoria y los aranceles, y Sony y Microsoft también subieron sus consolas. Eso no lo controla Nintendo. Lo que sí controla es qué juegos saca y cuándo, y ahí es donde se va a decidir si la Switch 2 se queda en buena consola o llega a ser otro éxito como la primera Switch.</p>
+<p>Mi conclusión es que Nintendo va por un camino decente. Corrigió los errores que más le dolieron en el pasado, pero el precio es ahora su punto débil, y una consola cara necesita juegos que justifiquen cada dólar.</p>
+<blockquote class="big-quote s"><p>Esta vez Nintendo lanzó a tiempo, con juegos y con un nombre que se entiende. Ahora le toca cuidar el precio.</p></blockquote></div></div></div>
+
+<div class="page" aria-label="Página 11: Conclusión"><div class="sheet"><svg class="deco" style="right:20px;top:440px;width:170px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><svg class="deco" style="right:-34px;top:20px;width:130px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="1.5"/><circle cx="12" cy="10" r="3"/><path d="M8 17h8"/></svg><header class="run odd"><span class="mast">NIVEL<i>.</i></span><span>Conclusión</span></header>
+<footer class="folio odd"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>11</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">09</span><h2>Conclusión</h2></div>
+<p class="lead">Nintendo lleva más de 130 años en el negocio de hacer jugar a la gente, y en ese tiempo ha pasado por todo: naipes, juguetes, consolas que fueron un éxito mundial y otras que casi nadie compró. Lo que muestra su historia es que una empresa puede tener las mejores ideas y aun así fallar si no cuida cómo las lleva al mercado.</p><p>Me llevo varias lecciones. Un producto tiene que entenderse a la primera; si el cliente no sabe qué es, no lo compra. Lanzar sin nada que ofrecer desde el primer día tiene un costo. El precio comunica tanto como el producto. Y cuando uno se equivoca, como pasó con la 3DS, reconocerlo rápido y compensar al cliente vale más que esconder el error.</p><p>La Switch 2 demuestra que Nintendo aprendió buena parte de eso. Ahora le toca enfrentar un problema nuevo, el de una consola que cuesta más, y ver si sus juegos alcanzan para que la gente la siga eligiendo.</p>
+<blockquote class="big-quote"><p>Una buena idea mal lanzada sigue siendo un fracaso.</p></blockquote>
+<div class="cta">
+<p class="cta-t">¿Y tú, qué opinas?</p>
+<p class="cta-s">Si quieres revisar los números por tu cuenta, Nintendo publica sus resultados financieros cada trimestre.</p>
+<div class="cta-links"><a href="https://www.nintendo.co.jp/ir/en/index.html" target="_blank" rel="noopener">Ver la información para inversionistas de Nintendo</a></div>
+</div></div></div></div>
+
+<div class="page" aria-label="Página 12: Bibliografía"><div class="sheet"><svg class="deco" style="left:-34px;top:110px;width:130px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6"/></svg><header class="run even"><span class="mast">NIVEL<i>.</i></span><span>Bibliografía</span></header>
+<footer class="folio even"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>12</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">10</span><h2>Bibliografía</h2></div>
+<div class="refs">
+<p class="ref">CNBC. (2026, 5 de noviembre). <em>Nintendo Switch 2 sales plunge 41% as price hikes and memory crunch bite</em>. <a href="https://www.cnbc.com/2026/11/05/nintendo-earnings-switch-2-sales.html" target="_blank" rel="noopener">https://www.cnbc.com/2026/11/05/nintendo-earnings-switch-2-sales.html</a></p>
+<p class="ref">Cork, J. (2011, 29 de julio). Nintendo president takes pay cut in wake of 3DS’ troubles. <em>Game Informer</em>. <a href="https://gameinformer.com/b/news/archive/2011/07/29/nintendo-president-takes-pay-cut-in-wake-of-3ds-39-troubles.aspx" target="_blank" rel="noopener">https://gameinformer.com/b/news/archive/2011/07/29/nintendo-president-takes-pay-cut-in-wake-of-3ds-39-troubles.aspx</a></p>
+<p class="ref">Den of Geek. (2025). <em>Nintendo Switch 2 prices are a major red flag for the future of gaming</em>. <a href="https://www.denofgeek.com/?p=973903" target="_blank" rel="noopener">https://www.denofgeek.com/?p=973903</a></p>
+<p class="ref">Engadget. (2011, 28 de julio). <em>Nintendo posts earnings, drops 3DS from $249 to $169 August 12th, current owners get 20 free games</em>. <a href="https://www.engadget.com/2011-07-28-nintendo-3ds-price-drops-from-249-to-169-august-12th-current.html" target="_blank" rel="noopener">https://www.engadget.com/2011-07-28-nintendo-3ds-price-drops-from-249-to-169-august-12th-current.html</a></p>
+<p class="ref">McEvoy, S. (2026, mayo). Nintendo FY sales soar 98.6% to $14.6bn following launch of Switch 2. <em>GamesIndustry.biz</em>. <a href="https://gamedev.net/news/3198-nintendo-fy-sales-soar-986-to-146bn-following-launch-of-switch-2/" target="_blank" rel="noopener">https://gamedev.net/news/3198-nintendo-fy-sales-soar-986-to-146bn-following-launch-of-switch-2/</a></p>
+<p class="ref">Morris, C. (2025, 2 de abril). Nintendo’s Switch 2 will be available on June 5, but will cost 50% more than its predecessor did at launch. <em>Fortune</em>. <a href="https://fortune.com/2025/04/02/nintendo-switch-2-launch-date-price-mario-kart-world/" target="_blank" rel="noopener">https://fortune.com/2025/04/02/nintendo-switch-2-launch-date-price-mario-kart-world/</a></p>
+<p class="ref">Nintendo Co., Ltd. (s. f.). <em>Company history</em>. <a href="https://www.nintendo.co.jp/corporate/en/history/index.html" target="_blank" rel="noopener">https://www.nintendo.co.jp/corporate/en/history/index.html</a></p>
+<p class="ref">Nintendo Co., Ltd. (s. f.). <em>Message from the president</em>. <a href="https://www.nintendo.co.jp/ir/en/management/message.html" target="_blank" rel="noopener">https://www.nintendo.co.jp/ir/en/management/message.html</a></p>
+<p class="ref">Nintendo Co., Ltd. (s. f.). <em>Putting smiles on the faces of everyone Nintendo touches</em>. <a href="https://www.nintendo.co.jp/csr/en/report/creation/index.html" target="_blank" rel="noopener">https://www.nintendo.co.jp/csr/en/report/creation/index.html</a></p>
+<p class="ref">Nintendo Co., Ltd. (2015). <em>Nintendo CSR report 2015</em>. <a href="https://ohp.nintendo.co.jp/csr/en/pdf/nintendo_csr2015e.pdf" target="_blank" rel="noopener">https://ohp.nintendo.co.jp/csr/en/pdf/nintendo_csr2015e.pdf</a></p>
+<p class="ref">Nintendo Everything. (2026, noviembre). <em>Nintendo financial results, November 2026: Switch 2 at 26.35 million, Switch at 157.20 million</em>. <a href="https://nintendoeverything.com/nintendo-financial-results-november-2026-switch-2-at-26-35-million-switch-at-157-20-million-more/" target="_blank" rel="noopener">https://nintendoeverything.com/nintendo-financial-results-november-2026-switch-2-at-26-35-million-switch-at-157-20-million-more/</a></p>
+<p class="ref">Nintendo Life. (2026, 5 de noviembre). <em>Switch 2 surpasses 26 million units sold, hardware sales down by 37.4%</em>. <a href="https://www.nintendolife.com/news/2026/11/switch-2-surpasses-26-million-units-sold-hardware-sales-down-by-37-4percent" target="_blank" rel="noopener">https://www.nintendolife.com/news/2026/11/switch-2-surpasses-26-million-units-sold-hardware-sales-down-by-37-4percent</a></p>
+<p class="ref">Notebookcheck. (2026, mayo). <em>Nintendo Switch 2 gets a price hike</em>. <a href="https://notebookcheck.net/nintendo-switch-2-gets-a-price-hike.1292255.0.html" target="_blank" rel="noopener">https://notebookcheck.net/nintendo-switch-2-gets-a-price-hike.1292255.0.html</a></p>
+<p class="ref">PocketGamer.biz. (2026, junio). <em>The Super Mario Galaxy Movie surpasses $1bn worldwide</em>. <a href="https://www.pocketgamer.biz/the-super-mario-galaxy-movie-becomes-first-2026-film-to-surpass-1bn-worldwide/" target="_blank" rel="noopener">https://www.pocketgamer.biz/the-super-mario-galaxy-movie-becomes-first-2026-film-to-surpass-1bn-worldwide/</a></p>
+<p class="ref">Reisinger, D. (2016, 8 de julio). Here’s how many Wii U units Nintendo hoped to sell. <em>Fortune</em>. <a href="https://fortune.com/2016/07/08/nintendo-wii-u-sales/" target="_blank" rel="noopener">https://fortune.com/2016/07/08/nintendo-wii-u-sales/</a></p>
+<p class="ref">Time Extension. (2024, marzo). <em>Square had huge plans for the N64 before it fell out with Nintendo</em>. <a href="https://www.timeextension.com/news/2024/03/square-had-huge-plans-for-the-n64-before-it-fell-out-with-nintendo" target="_blank" rel="noopener">https://www.timeextension.com/news/2024/03/square-had-huge-plans-for-the-n64-before-it-fell-out-with-nintendo</a></p>
+<p class="ref">Wikipedia. (2026). <em>Virtual Boy</em>. <a href="https://en.wikipedia.org/wiki/Virtual_Boy" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Virtual_Boy</a></p>
+</div>
+<div class="colophon"><span class="mast big">NIVEL<i>.</i></span><span>Universidad Tecnológica de Panamá, Formación Empresarial<br>II Semestre 2026</span></div></div></div></div>
+
+<div class="page" aria-label="Página 13: Anexos"><div class="sheet"><svg class="deco" style="right:-20px;top:16px;width:150px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="6" width="20" height="12" rx="3"/><rect x="7" y="8" width="10" height="8" rx=".5"/><circle cx="4.5" cy="12" r=".8"/><circle cx="19.5" cy="12" r=".8"/></svg><svg class="deco" style="right:-24px;bottom:-14px;width:120px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="1.5"/><circle cx="12" cy="10" r="3"/><path d="M8 17h8"/></svg><header class="run odd"><span class="mast">NIVEL<i>.</i></span><span>Anexos</span></header>
+<footer class="folio odd"><span>Revista NIVEL, edición 1, noviembre 2026</span><b>13</b></footer>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="body"><div class="sec"><span class="num">11</span><h2>Anexos</h2></div>
+<h3 class="minor">Anexo A. Ficha de lanzamiento: Nintendo Switch 2</h3>
+<p>Un resumen de los datos del lanzamiento que se analizan en esta edición.</p>
+<div class="label">
+<div class="label-top"><span class="label-name">Nintendo Switch 2</span><span>Consola híbrida</span></div>
+<div class="label-sub">Sucesora de la Nintendo Switch, que vendió 157.20 millones.</div>
+<div class="lbl-row"><b>Lanzamiento</b><span>5 de junio de 2025</span></div>
+<div class="lbl-row"><b>Precio inicial</b><span>$449.99, o $499.99 con <em>Mario Kart World</em></span></div>
+<div class="lbl-row"><b>Precio actual</b><span>$499.99 en EE. UU. desde el 1 de septiembre de 2026</span></div>
+<div class="lbl-row"><b>Juego principal</b><span><em>Mario Kart World</em>, 14.7 millones de copias al 31 de marzo de 2026</span></div>
+<div class="lbl-row"><b>Ventas</b><span>26.35 millones de consolas y 73.21 millones de juegos al 30 de septiembre de 2026</span></div>
+<div class="lbl-row"><b>Meta</b><span>16.5 millones de consolas entre abril de 2026 y marzo de 2027</span></div>
+<div class="label-foot"><span>Datos de Nintendo</span><span>Revista NIVEL, edición 1</span></div>
+</div>
+<h3 class="minor">Anexo B. Cuatro lecciones de los lanzamientos de Nintendo</h3>
+<div class="guar"><div><h4>Que se entienda</h4><span>La Wii U confundió al público con su nombre. La Switch 2 se explica sola.</span></div><div><h4>Llegar con algo que jugar</h4><span>Una consola sin juegos fuertes al inicio pierde el impulso que da el lanzamiento.</span></div><div><h4>Cuidar a los aliados</h4><span>Con la Nintendo 64, los estudios externos que necesitaba se fueron con la competencia.</span></div><div><h4>Corregir rápido</h4><span>Con la 3DS bajó el precio en menos de cinco meses y compensó a quienes pagaron más.</span></div></div>
+<h3 class="minor">Anexo C. ¿Sabías que…?</h3>
+<p>Muchas veces se dice que el nombre “Nintendo” significa “deja la suerte al cielo”, pero esa traducción probablemente no es correcta, y todavía no está claro qué quiso decir su fundador con ese nombre. Lo que sí se sabe es que la empresa empezó vendiendo cartas de hanafuda tres años después de que el gobierno japonés las legalizara.</p></div></div></div>
+
+<div class="page" data-density="hard" aria-label="Contraportada"><div class="sheet cover back">
+<span class="mast big w">NIVEL<i>.</i></span>
+<pre class="code-deco" aria-hidden="true">Switch ............. 157.20 M
+Wii ................ 101.6 M
+Switch 2 ...........  26.35 M  (y contando)
+Wii U ..............  13.56 M
+Virtual Boy ........   0.77 M</pre>
+<p class="back-t">Cada consola es un lanzamiento. Cada lanzamiento, una lección.</p>
+<p class="back-s">Nintendo ha tenido éxitos enormes y fracasos que nadie olvida. En esta edición, un análisis de lo que hizo mal al lanzar y de si la Switch 2 va por buen camino.</p>
+<div class="back-links"><a href="https://www.nintendo.co.jp/ir/en/index.html" target="_blank" rel="noopener">Resultados de Nintendo para inversionistas</a></div>
+<div class="sticker back-sticker">Edición N.º 1</div>
+<div class="cv-credit"><span>Revista NIVEL, edición 1, noviembre 2026</span><span>Por Daniel Pérez</span></div>
+</div></div>
+
+</div></div></main>
+<nav class="bar" aria-label="Pasar páginas">
+<button type="button" id="prev" aria-label="Página anterior">Anterior</button>
+<output id="pos" aria-live="polite">Portada</output>
+<button type="button" id="next" aria-label="Página siguiente">Siguiente</button>
+</nav>
+<p class="hint">Arrastra la esquina de la hoja, haz clic en ella o usa las flechas del teclado para pasar de página.</p>
+<script src="vendor/page-flip.browser.js"></script>
+<script>
+(function () {
+  const bookEl = document.getElementById('book');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pages = bookEl.querySelectorAll('.page');
+  const total = pages.length;
+
+  const flip = new St.PageFlip(bookEl, {
+    width: 612, height: 792, size: 'stretch',
+    minWidth: 280, maxWidth: 816, minHeight: 362, maxHeight: 1056,
+    showCover: true, usePortrait: true, maxShadowOpacity: 0.45,
+    flippingTime: reduce ? 1 : 900, mobileScrollSupport: true, autoSize: true
+  });
+  flip.loadFromHTML(pages);
+
+  function scaleSheets() {
+    const w = pages[0].getBoundingClientRect().width || pages[1].getBoundingClientRect().width;
+    if (w) document.documentElement.style.setProperty('--s', (w / 816).toFixed(4));
+  }
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const pos = document.getElementById('pos');
+  function label(i) {
+    if (i === 0) return 'Portada';
+    if (i === total - 1) return 'Contraportada';
+    const mode = flip.getOrientation();
+    if (mode === 'landscape' && i + 1 < total - 1) return 'Páginas ' + (i + 1) + ' y ' + (i + 2) + ' de ' + total;
+    return 'Página ' + (i + 1) + ' de ' + total;
+  }
+  function sync() {
+    const i = flip.getCurrentPageIndex();
+    pos.textContent = label(i);
+    prev.disabled = i === 0;
+    next.disabled = i >= total - 1 || (flip.getOrientation() === 'landscape' && i >= total - 2 && i !== 0 && total % 2 === 1);
+    scaleSheets();
+  }
+  flip.on('init', sync);
+  flip.on('flip', sync);
+  flip.on('changeOrientation', sync);
+  flip.on('update', sync);
+  new ResizeObserver(scaleSheets).observe(bookEl);
+  window.addEventListener('load', scaleSheets);
+  setTimeout(sync, 50);
+
+  prev.addEventListener('click', () => flip.flipPrev());
+  next.addEventListener('click', () => flip.flipNext());
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') flip.flipNext();
+    if (e.key === 'ArrowLeft') flip.flipPrev();
+  });
+  bookEl.querySelectorAll('[data-go]').forEach((a) => {
+    a.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); flip.flip(Number(a.dataset.go) - 1); });
+  });
+})();
+</script>
+</body>
+</html>
